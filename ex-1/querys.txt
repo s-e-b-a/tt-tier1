@@ -1,0 +1,57 @@
+Obtener todos los riesgos declarados por un vigilante desde un mes hacia a tres a contar de hoy
+
+Select
+u.nombre as NombreVigilante,
+u.rut as RutVigilante,
+v.fechaContrato as FechaContratoVigilante,
+s.direccion as DireccionSucursal,
+b.nombre as NombreBanco,
+r.comentario as ComentarioRiesgo,
+r.isLlamadaCarabineros as isLlamadaCarabinerosRiego,
+r.fechaRiesgo as fechaRiesgo
+
+From
+Usuario u
+Join Vigilante v on v.idUsuario = u.idUsuario
+Join AsignacionSucursal a on a.idVigilante = v.idVigilante
+Join Sucursal s on s.idSucursal = a.idSucursal
+Join Banco b on b.idBanco = s.idBanco
+Join Riesgo r on r.idSucursal = a.idSucursal
+Where
+r.fechaRiesgo > (Now () - Interval 1 MONTH);
+
+
+Obtener el listado de todos los usuarios que nunca se han logeado
+
+Select
+u.nombre as NombreUsuario,
+u.rut as RutUsuario
+Where
+u.IdUsuario not exists (select idUsuario from LogAcceso)
+
+Obtener el total de sucursales asignadas a los vigilante
+
+Select
+u.nombre as NombreVigilante,
+u.rut as RutVigilante,
+v.fechaContrato as FechaContratoVigilante,
+count(a.idSucursal)
+
+From Usuario u
+Join Vigilante v on v.idUsuario = u.idUsuario
+Join AsignacionSucursal a on a.idVigilante = v.idVigilante
+
+Group by
+u.nombre,
+u.rut,
+v.fechaContrato
+
+Obtener el listado de bancos que contienen más de tres sucursales
+
+Select
+b.nombre as NombreBanco,
+count(s.IdSucursal)
+From Banco b
+Join Sucursal s on s.idBanco = b.idBanco
+Group by NombreBanco
+Having count(s.IdSucursal) > 3
