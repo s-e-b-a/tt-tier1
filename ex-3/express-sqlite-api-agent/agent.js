@@ -11,7 +11,8 @@ eventEmitter.on('addMetric', () => {
     monitor.create({
         uuid: uuidv4().toString(),
         host_name: os.hostname(),
-        memory_info: os.freemem().toString()+' of '+os.totalmem().toString()
+        memory_used: os.totalmem() - os.freemem(),
+        memory_total : os.totalmem()
     });
 });
 
