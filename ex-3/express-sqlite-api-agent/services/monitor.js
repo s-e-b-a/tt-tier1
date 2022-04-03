@@ -9,6 +9,12 @@ function getFromDate(date) {
   }
 }
 
+function getFromInterval(interval) {
+  const data = db.query(`SELECT * FROM log WHERE timestamp >= DATETIME(CURRENT_TIMESTAMP,?)`, interval);
+  return {
+    data,
+  }
+}
 function validateCreate(log) {
   let messages = [];
   if (!log) {
@@ -46,5 +52,6 @@ function create(logObj) {
 
 module.exports = {
   getFromDate,
+  getFromInterval,
   create
 }
