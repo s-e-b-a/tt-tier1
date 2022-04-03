@@ -45,4 +45,3 @@ console.log(find_number(numbers, numbers[number_to_search]));
 
 console.log("find number in array [invalid]");
 console.log(find_number([7, 5, 8, 10, 12], 4));
-

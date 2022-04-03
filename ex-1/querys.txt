@@ -1,14 +1,14 @@
-Obtener todos los riesgos declarados por un vigilante desde un mes hacia a tres a contar de hoy
+#Obtener todos los riesgos declarados por un vigilante desde un mes hacia a tres a contar de hoy
 
 Select
-u.nombre as NombreVigilante,
-u.rut as RutVigilante,
-v.fechaContrato as FechaContratoVigilante,
-s.direccion as DireccionSucursal,
-b.nombre as NombreBanco,
-r.comentario as ComentarioRiesgo,
-r.isLlamadaCarabineros as isLlamadaCarabinerosRiego,
-r.fechaRiesgo as fechaRiesgo
+    u.nombre as NombreVigilante,
+    u.rut as RutVigilante,
+    v.fechaContrato as FechaContratoVigilante,
+    s.direccion as DireccionSucursal,
+    b.nombre as NombreBanco,
+    r.comentario as ComentarioRiesgo,
+    r.isLlamadaCarabineros as isLlamadaCarabinerosRiego,
+    r.fechaRiesgo as fechaRiesgo
 
 From
 Usuario u
@@ -21,21 +21,21 @@ Where
 r.fechaRiesgo > (Now () - Interval 1 MONTH);
 
 
-Obtener el listado de todos los usuarios que nunca se han logeado
+#Obtener el listado de todos los usuarios que nunca se han logeado
 
 Select
-u.nombre as NombreUsuario,
-u.rut as RutUsuario
+    u.nombre as NombreUsuario,
+    u.rut as RutUsuario
 Where
-u.IdUsuario not exists (select idUsuario from LogAcceso)
+    u.IdUsuario not exists (select idUsuario from LogAcceso)
 
-Obtener el total de sucursales asignadas a los vigilante
+#Obtener el total de sucursales asignadas a los vigilante
 
 Select
-u.nombre as NombreVigilante,
-u.rut as RutVigilante,
-v.fechaContrato as FechaContratoVigilante,
-count(a.idSucursal)
+    u.nombre as NombreVigilante,
+    u.rut as RutVigilante,
+    v.fechaContrato as FechaContratoVigilante,
+    count(a.idSucursal)
 
 From Usuario u
 Join Vigilante v on v.idUsuario = u.idUsuario
@@ -46,12 +46,14 @@ u.nombre,
 u.rut,
 v.fechaContrato
 
-Obtener el listado de bancos que contienen más de tres sucursales
+#Obtener el listado de bancos que contienen más de tres sucursales
 
 Select
-b.nombre as NombreBanco,
-count(s.IdSucursal)
+    b.nombre as NombreBanco,
+    count(s.IdSucursal)
 From Banco b
 Join Sucursal s on s.idBanco = b.idBanco
-Group by NombreBanco
-Having count(s.IdSucursal) > 3
+Group by 
+    NombreBanco
+Having 
+    count(s.IdSucursal) > 3
